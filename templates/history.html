@@ -1,0 +1,41 @@
+<!--The code above is used to display a table of transaction history data.
+The table includes columns for the symbol, name, amount, shares, transaction type, and date and time.
+The code uses the for loop to iterate through the sales data and display each sale in a new row.
+The table row is given a class based on the transaction type (buy or sell).-->
+
+{% extends "layout.html" %}
+
+{% block title %}
+    History
+{% endblock %}
+
+{% block main %}
+    <div class="section">
+                <h2>TRANSACTION HISTORY</h2>
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Symbol</th>
+                            <th>Name</th>
+                            <th>Amount</th>
+                            <th>Shares</th>
+                            <th>Transaction type</th>
+                            <th>Date and Time</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {%for sale in sales%}
+                        <tr>
+                            <td>{{sale["symbol"]}}</td>
+                            <td>{{sale["name"]}}</td>
+                            <td>{{sale["amt"] | usd}}</td>
+                            <td>{{sale["shares"]}}</td>
+                            <td>{{sale["Ts_type"]}}</td>
+                            <td>{{sale["date"]}}</td>
+                        </tr>
+                        {%endfor%}
+                    </tbody>
+                </table>
+    </div>
+{% endblock %}
+

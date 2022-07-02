@@ -1,0 +1,54 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Home
+{% endblock %}
+
+{% block main %}
+    <div class="section">
+                <h2>My Current Assets</h2>
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Symbol</th>
+                            <th>Name</th>
+                            <th>Price</th>
+                            <th>Shares</th>
+                            <th>Value</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {%for stock in stocks%}
+                        <tr>
+                            <td>{{stock["symbol"]}}</td>
+                            <td>{{stock["name"]}}</td>
+                            <td>{{stock["price"] | usd}}</td>
+                            <td>{{stock["shares"]}}</td>
+                            <td>{{stock["total"] | usd}}</td>
+                        </tr>
+                        {%endfor%}
+                    </tbody>
+                </table>
+    </div>
+    <div class="section"> <!--w-auto-->
+                <h2>Summary</h2>
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Total Shares</th>
+                            <th>Total Value</th>
+                            <th>My balance</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {%for TOTAL in TOTALS%}
+                        <tr>
+                            <td>{{TOTAL["Tshares"]}}</td>
+                            <td>{{TOTAL["Tvalue"] | usd}}</td>
+                            <td>{{TOTAL["balance"] | usd}}</td>
+                        </tr>
+                        {%endfor%}
+                    </tbody>
+                </table>
+    </div>
+{% endblock %}
