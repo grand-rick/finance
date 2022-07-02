@@ -447,3 +447,5 @@ def add():
 
         return render_template("add.html", bal=bal)
 
+if __name__ == "__main__":
+    app.run(debug=True)
