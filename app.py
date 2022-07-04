@@ -23,7 +23,7 @@ app.config["SESSION_TYPE"] = "filesystem"
 Session(app)
 
 # Configure CS50 Library to use SQLite database
-uri = os.getenv("DATABASE_URL") or 'sqlite:///finance.db'
+uri = os.environ.get("DATABASE_URL") or "sqlite:///finance.db"
 if uri.startswith("postgres://"):
     uri = uri.replace("postgres://", "postgresql://")
 db = SQL(uri)
@@ -157,7 +157,7 @@ def buy():
             db.execute("UPDATE users SET cash = ? WHERE id = ?", bal, user_id)
 
             # Record the transaction
-            db.execute("INSERT INTO transactions (user_id, symbol, transaction_amt, transaction_type, shares, date) VALUES(?, ?, ?, ?, ?, datetime('now', 'localtime'))",
+            db.execute("INSERT INTO transactions (user_id, symbol, transaction_amt, transaction_type, shares, date) VALUES(?, ?, ?, ?, ?, CURRENT_TIMESTAMP)",
                        user_id, symbol, total, buy, shares)
 
             # Check if the buyer has made any prior purchases
@@ -398,7 +398,7 @@ def sell():
         db.execute("UPDATE users SET cash = ? WHERE id = ?", summation, user_id)
 
         # Record the transaction
-        db.execute("INSERT INTO transactions (user_id, symbol, transaction_amt, transaction_type, shares, date) VALUES(?, ?, ?, ?, ?, datetime('now', 'localtime'))",
+        db.execute("INSERT INTO transactions (user_id, symbol, transaction_amt, transaction_type, shares, date) VALUES(?, ?, ?, ?, ?, CURRENT_TIMESTAMP)",
                    user_id, symbol, total, sell, shares)
 
         # Update the stock owned
@@ -439,7 +439,7 @@ def add():
         db_cash += new_cash
 
         db.execute("UPDATE users SET cash = ? WHERE id = ?", db_cash, user_id)
-        db.execute("INSERT INTO deposits (person_id, dep_amt, date) VALUES(?, ?, datetime('now', 'localtime'))", user_id, new_cash)
+        db.execute("INSERT INTO deposits (person_id, dep_amt, date) VALUES(?, ?, CURRENT_TIMESTAMP))", user_id, new_cash)
         return redirect("/")
     else:
         bal = db.execute("SELECT cash FROM users WHERE id = ?", user_id)
